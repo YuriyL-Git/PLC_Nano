@@ -6,31 +6,46 @@
 #include "definitions/definitions.h"
 
 
-/*const uint8_t ENCODER_PIN_A = 8;  // D8
-const uint8_t ENCODER_PIN_B = 9;  // D9
-const uint8_t ENCODER_PIN_BTN = 10;   // D10*/
-
 int encoderPos = 0;
 int lastEncoderPinB = LOW;
 int lastButtonState = LOW;
 unsigned long lastDebounceTime = 0;
 unsigned long debounceDelay = 50;
+unsigned long relayPrintStartTime = 0;
 
 
 void setup() {
   setupBoard();
-
-  pinMode(ENCODER_PIN_A, INPUT_PULLUP);
-  pinMode(ENCODER_PIN_B, INPUT_PULLUP);
-  pinMode(ENCODER_PIN_BTN, INPUT_PULLUP);
-
 }
 
 void loop() {
-  printDateTime();
+ // printDateTime();
 
-  setRelay(1, true);
-  setRelay(2, false);
+
+
+  Ds1302::DateTime dateTime = getCurrentDateTime();
+  uint8_t hour = dateTime.hour;
+
+  uint8_t relayEnabled = 0;
+
+
+  if ((hour >= 1 && hour <= 3) || (hour >= 7 && hour <= 10) || (hour >= 14 && hour <= 17)|| (hour >= 21 && hour <= 23)) {
+    setRelay(1, true);
+    setRelay(2, false);
+    relayEnabled = 1;
+
+  } else {
+    setRelay(1, false);
+    setRelay(2, true);
+    relayEnabled = 2;
+  }
+
+  if (isTimePassed(1000, &relayPrintStartTime)) {
+    lcd.clear();
+    lcd.print("Relay " + String(relayEnabled) + " enabled" );
+  }
+
+
 
 
   /// encoder code

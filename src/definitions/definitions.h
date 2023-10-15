@@ -1,7 +1,8 @@
 #ifndef DEFINITIONS_H
 #define DEFINITIONS_H
 
-#define CLK 2
-#define DT 3
+#define RL1_PIN A0
+#define RL2_PIN A1
 
 #endif
+

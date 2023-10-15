@@ -1,18 +1,17 @@
 #include <Arduino.h>
 #include "setup/setup.h"
+#include "definitions/definitions.h"
 #include <LiquidCrystal_I2C.h>
 #include <Ds1302.h>
 
 LiquidCrystal_I2C lcd(0x27,16,2);
 Ds1302 rtc(12, 13, 11);
 
-uint8_t RL1_PIN = A0;
-uint8_t RL2_PIN = A1;
+
 
 const uint8_t encoderPinA = 8;  // D8
 const uint8_t encoderPinB = 9;  // D9
 const uint8_t buttonPin = 10;   // D10
-
 
 int encoderPos = 0;
 int lastEncoderPinB = LOW;
@@ -39,8 +38,7 @@ void setup() {
 
  // lcd.print("iarduino.ru");
   pinMode(LED_BUILTIN, OUTPUT);
-  pinMode(RL1_PIN, OUTPUT);
-  pinMode(RL2_PIN, OUTPUT);
+
 
   pinMode(encoderPinA, INPUT_PULLUP);
   pinMode(encoderPinB, INPUT_PULLUP);

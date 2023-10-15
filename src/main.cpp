@@ -6,6 +6,20 @@
 LiquidCrystal_I2C lcd(0x27,16,2);
 Ds1302 rtc(12, 13, 11);
 
+uint8_t RL1_PIN = A0;
+uint8_t RL2_PIN = A1;
+
+const uint8_t encoderPinA = 8;  // D8
+const uint8_t encoderPinB = 9;  // D9
+const uint8_t buttonPin = 10;   // D10
+
+
+int encoderPos = 0;
+int lastEncoderPinB = LOW;
+int lastButtonState = LOW;
+unsigned long lastDebounceTime = 0;
+unsigned long debounceDelay = 50;
+
 
 const static char* WeekDays[] =
         {
@@ -25,6 +39,12 @@ void setup() {
 
  // lcd.print("iarduino.ru");
   pinMode(LED_BUILTIN, OUTPUT);
+  pinMode(RL1_PIN, OUTPUT);
+  pinMode(RL2_PIN, OUTPUT);
+
+  pinMode(encoderPinA, INPUT_PULLUP);
+  pinMode(encoderPinB, INPUT_PULLUP);
+  pinMode(buttonPin, INPUT_PULLUP);
 
 
   if (false)
@@ -86,7 +106,41 @@ void loop() {
     lcd.print( now.second);
   }
 
+  digitalWrite(RL1_PIN, LOW);
+  digitalWrite(RL2_PIN, LOW);
+
 
  // digitalWrite(LED_BUILTIN, LOW);  // set the LED off
- // delay(1000);
+ // digitalWrite(RL1_PIN, LOW);
+ // digitalWrite(RL2_PIN, LOW);
+
+
+ /// encoder code
+  int readingA = digitalRead(encoderPinA);
+  int readingB = digitalRead(encoderPinB);
+  int buttonState = digitalRead(buttonPin);
+
+  if (readingA != lastEncoderPinB) {
+    if (readingB != readingA) {
+      encoderPos++;
+    } else {
+      encoderPos--;
+    }
+  }
+
+  if (buttonState != lastButtonState) {
+    if ((millis() - lastDebounceTime) > debounceDelay) {
+      if (buttonState == LOW) {
+        Serial.println("Button pressed");
+      }
+      lastDebounceTime = millis();
+    }
+  }
+
+  lastEncoderPinB = readingA;
+  lastButtonState = buttonState;
+
+  // You can use 'encoderPos' for your desired action
+  Serial.println("Encoder position: " + String(encoderPos));
+
 }

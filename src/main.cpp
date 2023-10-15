@@ -1,12 +1,11 @@
 #include <Arduino.h>
 #include "setup/setup.h"
-#include "definitions/definitions.h"
+#include "relay/relay.h"
 #include <LiquidCrystal_I2C.h>
 #include <Ds1302.h>
 
 LiquidCrystal_I2C lcd(0x27,16,2);
 Ds1302 rtc(12, 13, 11);
-
 
 
 const uint8_t encoderPinA = 8;  // D8
@@ -104,8 +103,12 @@ void loop() {
     lcd.print( now.second);
   }
 
-  digitalWrite(RL1_PIN, LOW);
-  digitalWrite(RL2_PIN, LOW);
+/*  digitalWrite(RL1_PIN, LOW);
+  digitalWrite(RL2_PIN, LOW);*/
+
+  setRelay(1, true);
+  setRelay(2, false);
+
 
 
  // digitalWrite(LED_BUILTIN, LOW);  // set the LED off

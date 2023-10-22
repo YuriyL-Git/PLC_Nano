@@ -2,14 +2,22 @@
 #include "settings.h"
 #include <EEPROM.h>
 
+
+
 Settings settings = {
         // to update settings in eeprom, increase version number
         // for first initialization call saveSettings() in setup
-        1,
-        25
+        3,
+        false,
+        false,
+        {
+          1,
+          1
+        }
 };
 
 void saveSettings() {
+  Serial.println("Settings saved to EEPROM");
   EEPROM.put(1, settings);
 }
 

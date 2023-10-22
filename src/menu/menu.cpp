@@ -5,72 +5,129 @@
 #include "main-menu/main-menu.h"
 #include "menu.h"
 
-
-void (*mainMenuItems[])() = {mainScreenHandler, timeSettingsHandler};
-
-
-void (*timeSettingsSubItems[])() = {hourSettingHandler, minuteSettingHandler, saveAndExitTimeSettingsHandler, exitTimeSettingsHandler };
-
-void (*menuSubItems[][10])() = {{}, {hourSettingHandler, minuteSettingHandler, saveAndExitTimeSettingsHandler, exitTimeSettingsHandler }};
-
-// menuItemsLength and menuSubItemsLength should be updated manually!!
 MenuSettings menuSettings = {
-        2,
         false,
         false,
         0,
-        1,
-        {0,4}
+        0,
 };
 
+
+MenuItem mainMenuItems[] = {
+        {
+                mainScreenHandler
+        },
+        {
+                timeSettingsHandler
+        }
+};
+
+MenuItem mainScreenSubItems[] = {};
+
+
+MenuItem timeSettingsSubItems[] = {
+        {
+                hourSettingHandler
+        },
+        {
+                minuteSettingHandler
+        },
+        {
+                saveAndExitTimeSettingsHandler
+        },
+        {
+                exitTimeSettingsHandler
+        }
+
+};
+
+
+MenuSubItem getMenuSubItems(int index) {
+  if (index == 0) {
+    return {
+            mainScreenSubItems,
+            sizeof(mainScreenSubItems) / sizeof(mainScreenSubItems[0])
+    };
+  } else {
+    return {
+            timeSettingsSubItems,
+            sizeof(timeSettingsSubItems) / sizeof(timeSettingsSubItems[0])
+    };
+  }
+}
+
+
 void mainMenuEncoderHandler() {
+  int mainMenuLength = sizeof(mainMenuItems) / sizeof(mainMenuItems[0]);
+
   if (encoder.left()) {
     if (menuSettings.mainMenuIndex > 0) {
       menuSettings.mainMenuIndex--;
     }
+
   }
 
   if (encoder.right()) {
-    if (menuSettings.mainMenuIndex < menuSettings.menuItemsLength - 1) {
+    if (menuSettings.mainMenuIndex < mainMenuLength - 1) {
       menuSettings.mainMenuIndex++;
     }
   }
 
-  if (encoder.click() && menuSettings.menuSubItemsLength[menuSettings.mainMenuIndex] > 0) {
+  uint8_t subMenuLength = getMenuSubItems(menuSettings.mainMenuIndex).menuSubItemsLength;
+
+  if (encoder.click() && subMenuLength > 0) {
     menuSettings.isSubMenu = true;
   }
 }
 
 void subMenuEncoderHandler() {
-  if (encoder.left()) {
-    if (menuSettings.subMenuIndex > 0) {
+  if (encoder.left() && menuSettings.subMenuIndex > 0) {
       menuSettings.subMenuIndex--;
-    }
   }
 
-  if (encoder.right()) {
-    if (menuSettings.subMenuIndex < menuSettings.menuSubItemsLength[menuSettings.mainMenuIndex] - 1) {
+  uint8_t subMenuLength = getMenuSubItems(menuSettings.mainMenuIndex).menuSubItemsLength;
+
+
+  if (encoder.right() && menuSettings.subMenuIndex < subMenuLength - 1) {
       menuSettings.subMenuIndex++;
-    }
   }
 
-/*  if (encoder.click() && menuSettings.menuSubItemsLength[menuSettings.mainMenuIndex] > 0) {
-    menuSettings.isSubMenu = true;
-  }*/
+
 }
 
-
 void renderMenu() {
-  if (menuSettings.isSubMenu ) {
-    subMenuEncoderHandler();
-    menuSubItems[menuSettings.mainMenuIndex][menuSettings.subMenuIndex]();
+  if (menuSettings.isSubMenu) {
+    if (encoder.click()) {
+      menuSettings.isSubMenuEdit = !menuSettings.isSubMenuEdit;
+    }
+
+    getMenuSubItems(menuSettings.mainMenuIndex).menuSubItems[menuSettings.subMenuIndex].handlerFunc();
+    if (!menuSettings.isSubMenuEdit) {
+      subMenuEncoderHandler();
+    }
+
   } else {
     mainMenuEncoderHandler();
-    mainMenuItems[menuSettings.mainMenuIndex]();
+    mainMenuItems[menuSettings.mainMenuIndex].handlerFunc();
   }
 
   if (encoder.turn() || encoder.click()) {
     lcd.clear();
+
+    Serial.println("menuSettings.mainMenuIndex: " + String(menuSettings.mainMenuIndex));
+    Serial.println("menuSettings.subMenuIndex: " + String(menuSettings.subMenuIndex));
+    Serial.println("menuSettings.isSubMenuEdit: " + String(menuSettings.isSubMenuEdit));
+    Serial.println("menuSettings.isSubMenu: " + String(menuSettings.isSubMenu));
+
   }
 }
+
+
+void exitSubMenu() {
+  menuSettings.isSubMenuEdit = false;
+  menuSettings.isSubMenu = false;
+  menuSettings.mainMenuIndex = 0;
+  menuSettings.subMenuIndex = 0;
+}
+
 

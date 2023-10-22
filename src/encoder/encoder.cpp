@@ -8,7 +8,7 @@ void setupEncoder() {
   encoder.setClickTimeout(500);
   encoder.setDebTimeout(50);
   encoder.setHoldTimeout(600);
-  encoder.setStepTimeout(200);
+  encoder.setStepTimeout(100);
 
   encoder.setEncReverse(0);
   encoder.setEncType(EB_STEP4_LOW);

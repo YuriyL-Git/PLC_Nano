@@ -4,6 +4,7 @@
 #include "lcd/lcd.h"
 #include "datetime/datetime.h"
 #include "encoder/encoder.h"
+#include "menu/menu.h"
 
 unsigned long relayPrintStartTime = 0;
 
@@ -13,29 +14,9 @@ void setup() {
 
 void loop() {
   encoder.tick();
+ // renderMenu();
 
  // printDateTime();
-  if (encoder.turn()) {
-    Serial.print("turn: dir ");
-    Serial.print(encoder.dir());
-    Serial.print(", fast ");
-    Serial.print(encoder.fast());
-    Serial.print(", hold ");
-    Serial.print(encoder.pressing());
-    Serial.print(", counter ");
-    Serial.print(encoder.counter);
-    Serial.print(", clicks ");
-    Serial.println(encoder.getClicks());
-  }
-
-  if (encoder.left()) Serial.println("left");
-  if (encoder.right()) Serial.println("right");
-  if (encoder.leftH()) Serial.println("leftHold");
-  if (encoder.rightH()) Serial.println("rightHold");
-
-  if (encoder.press()) Serial.println("press");
-  if (encoder.click()) Serial.println("click");
-
 
   Ds1302::DateTime dateTime = getCurrentDateTime();
   uint8_t hour = dateTime.hour;

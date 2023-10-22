@@ -16,5 +16,5 @@ void setupBoard() {
   setupEncoder();
 
   getSettings();
- // setDateTime(23, Ds1302::MONTH_SET, 15 , 19, 49, 0, Ds1302::DOW_SUN);
+  setDateTime(23, Ds1302::MONTH_SET, 15 , 19, 13, 0, Ds1302::DOW_SUN);
 };

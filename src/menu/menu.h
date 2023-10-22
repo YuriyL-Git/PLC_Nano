@@ -1,7 +1,17 @@
-struct MenuItem {
-    char title[17];
+#ifndef MENU_H
+#define MENU_H
 
-    void (*callback)();
+
+struct MenuSettings {
+    uint8_t menuItemsLength;
+    bool isSubMenu;
+    bool isSubMenuEdit;
+    uint8_t mainMenuIndex;
+    uint8_t subMenuIndex;
+    uint8_t menuSubItemsLength[];
 };
+
+extern MenuSettings menuSettings;
+#endif
 
 void renderMenu();

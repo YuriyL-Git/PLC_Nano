@@ -14,6 +14,5 @@ void setupEncoder() {
   encoder.setEncType(EB_STEP4_LOW);
   encoder.setFastTimeout(30);
 
-  // сбросить счётчик энкодера
   encoder.counter = 0;
 };

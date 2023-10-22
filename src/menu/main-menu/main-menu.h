@@ -1,0 +1,2 @@
+void mainScreenHandler();
+void timeSettingsHandler();

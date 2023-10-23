@@ -3,6 +3,11 @@
 #include "datetime/datetime.h"
 #include "settings/settings.h"
 
+void setupRelays() {
+  pinMode(RL1_PIN, OUTPUT);
+  pinMode(RL2_PIN, OUTPUT);
+}
+
 
 void setRelay(uint8_t relayNumber, bool isEnabled) {
   uint8_t relay = 0;

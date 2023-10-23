@@ -41,7 +41,9 @@ void getSettings() {
   Settings savedSettings;
   EEPROM.get(1, savedSettings);
 
-  if ((savedSettings.version == NAN || savedSettings.version < settings.version  )) {
+
+
+  if (( isnan(savedSettings.version)  || savedSettings.version < settings.version  )) {
     Serial.println("Settings updated");
     saveSettings();
   } else {

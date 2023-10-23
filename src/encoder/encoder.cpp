@@ -12,7 +12,7 @@ void setupEncoder() {
 
   encoder.setEncReverse(0);
   encoder.setEncType(EB_STEP4_LOW);
-  encoder.setFastTimeout(30);
+  encoder.setFastTimeout(1);
 
   encoder.counter = 0;
 };

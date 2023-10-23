@@ -10,11 +10,6 @@ struct MenuSettings {
 };
 
 
-
-extern MenuSettings menuSettings;
-#endif
-
-
 typedef void (*FunctionPointer)();
 
 struct MenuItem {
@@ -26,7 +21,18 @@ struct MenuSubItem  {
     int menuSubItemsLength;
 };
 
+
+extern MenuSettings menuSettings;
+#endif
+
+
+
+
 void renderMenu();
+void subMenuHandler();
+void mainMenuHandler();
+void printDebugData();
+void initialTimeHandler();
 void exitSubMenu();
 
 MenuSubItem getMenuSubItems(int index);

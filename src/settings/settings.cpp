@@ -23,9 +23,7 @@ uint8_t relaysQuantity = sizeof(relaySettings)/sizeof(relaySettings[0]);
 Settings settings = {
         // to update settings in eeprom, increase version number
         // for first initialization call saveSettings() in setup
-        5,
-        false,
-        false,
+        9,
         relaysQuantity,
         {
           1,
@@ -43,7 +41,7 @@ void getSettings() {
   Settings savedSettings;
   EEPROM.get(1, savedSettings);
 
-  if ((savedSettings.version < settings.version)) {
+  if ((savedSettings.version == NAN || savedSettings.version < settings.version  )) {
     Serial.println("Settings updated");
     saveSettings();
   } else {

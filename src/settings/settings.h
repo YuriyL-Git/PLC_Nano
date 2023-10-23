@@ -21,8 +21,6 @@ struct RelaySettings {
 
 struct Settings {
     int version;
-    bool isRelay1Enabled;
-    bool isRelay2Enabled;
     uint8_t relaysQuantity;
     TimeSettings time;
     RelaySettings* relaySettings;

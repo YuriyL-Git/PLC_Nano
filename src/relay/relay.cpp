@@ -9,18 +9,8 @@ void setupRelays() {
 }
 
 
-void setRelay(uint8_t relayNumber, bool isEnabled) {
-  uint8_t relay = 0;
-
-  if (relayNumber == 1) {
-    relay = RL1_PIN;
-  } else if (relayNumber == 2) {
-    relay = RL2_PIN;
-  }
-
-  if (relay > 0) {
-    digitalWrite(relay, isEnabled? LOW : HIGH);
-  }
+void setRelay(uint8_t relayPin, bool isEnabled) {
+  digitalWrite(relayPin, isEnabled? LOW : HIGH);
 }
 
 void handleRelays () {
@@ -28,22 +18,23 @@ void handleRelays () {
   uint8_t hour = dateTime.hour;
 
   if (hour >= 19 && hour <= 21) {
-    settings.isRelay1Enabled = true;
-    settings.isRelay2Enabled = true;
+    settings.relaySettings[0].isEnabled = true;
+    settings.relaySettings[1].isEnabled = true;
 
   } else if ((hour >= 1 && hour <= 3) || (hour >= 7 && hour <= 10) || (hour >= 14 && hour <= 17) ||
              (hour >= 21 && hour <= 23)) {
 
 
-    settings.isRelay1Enabled = true;
-    settings.isRelay2Enabled = false;
+    settings.relaySettings[0].isEnabled = true;
+    settings.relaySettings[1].isEnabled = false;
   } else {
-    settings.isRelay1Enabled = false;
-    settings.isRelay2Enabled = true;
+    settings.relaySettings[0].isEnabled = false;
+    settings.relaySettings[1].isEnabled = true;
   }
 
-
-  setRelay(1, settings.isRelay1Enabled);
-  setRelay(2, settings.isRelay2Enabled);
+  for (int i = 0; i < settings.relaysQuantity; ++i) {
+    RelaySettings relaySettings = settings.relaySettings[i];
+    setRelay(relaySettings.relayPin, relaySettings.isEnabled);
+  }
 }
 

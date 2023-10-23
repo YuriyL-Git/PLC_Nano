@@ -1,19 +1,37 @@
 #include <Arduino.h>
 #include "settings.h"
 #include <EEPROM.h>
+#include "definitions/definitions.h"
+
+RelaySettings relaySettings[] = {
+        {
+          "RL1",
+          RL1_PIN,
+          false
+        },
+        {
+                "RL2",
+                RL2_PIN,
+                false
+        }
+};
+
+uint8_t relaysQuantity = sizeof(relaySettings)/sizeof(relaySettings[0]);
 
 
 
 Settings settings = {
         // to update settings in eeprom, increase version number
         // for first initialization call saveSettings() in setup
-        3,
+        5,
         false,
         false,
+        relaysQuantity,
         {
           1,
           1
-        }
+        },
+        relaySettings
 };
 
 void saveSettings() {

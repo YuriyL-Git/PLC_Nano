@@ -4,7 +4,6 @@
 #include "datetime/datetime.h"
 #include "encoder/encoder.h"
 #include "relay/relay.h"
-#include "GyverWDT.h"
 
 void setupBoard() {
   Serial.begin(9600);

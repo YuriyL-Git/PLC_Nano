@@ -10,24 +10,34 @@ unsigned long relayPrintStartTime = 0;
 
 void mainScreenHandler() {
 
-  if (isTimePassed(1000, &relayPrintStartTime)) {
+  if (isTimePassed(300, &relayPrintStartTime)) {
     String time = getFormattedTime();
 
     lcd.setCursor(0, 0);
     lcd.print(time);
     lcd.print("     ");
 
-    String relay1State = settings.isRelay1Enabled? "ON": "OFF";
-    String relay2State = settings.isRelay2Enabled? "ON": "OFF";
-
     lcd.setCursor(0, 1);
-    lcd.print("RL1:" + relay1State);
-    lcd.print("  ");
-    lcd.print("RL2:" + relay2State);
+    for (int i = 0; i < settings.relaysQuantity; ++i) {
+      RelaySettings relaySettings = settings.relaySettings[i];
+      String relayState = relaySettings.isEnabled? "ON": "OFF";
+      lcd.print(relaySettings.relayName + ":" + relayState);
+      lcd.print("  ");
+    }
   }
 }
 
 void timeSettingsHandler() {
   lcd.setCursor(1, 0);
   lcd.print("Time Settings");
+}
+
+void relay1SettingsHandler() {
+  lcd.setCursor(1, 0);
+  lcd.print("Relay 1 Settings");
+};
+
+void relay2SettingsHandler(){
+  lcd.setCursor(1, 0);
+  lcd.print("Relay 2 Settings");
 }

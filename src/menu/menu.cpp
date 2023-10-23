@@ -4,6 +4,10 @@
 #include "time-settings/time-settings.h"
 #include "main-menu/main-menu.h"
 #include "menu.h"
+#include "datetime/datetime.h"
+
+int LCD_BACKLIGHT_TIMEOUT = 5000;
+unsigned long lcdBacklightTimePassed = 0;
 
 MenuSettings menuSettings = {
         false,
@@ -19,7 +23,14 @@ MenuItem mainMenuItems[] = {
         },
         {
                 timeSettingsHandler
-        }
+        },
+        {
+                relay1SettingsHandler
+        },
+        {
+                relay2SettingsHandler
+        },
+
 };
 
 MenuItem mainScreenSubItems[] = {};
@@ -91,8 +102,6 @@ void subMenuEncoderHandler() {
   if (encoder.right() && menuSettings.subMenuIndex < subMenuLength - 1) {
       menuSettings.subMenuIndex++;
   }
-
-
 }
 
 void renderMenu() {
@@ -111,14 +120,22 @@ void renderMenu() {
     mainMenuItems[menuSettings.mainMenuIndex].handlerFunc();
   }
 
+
+
   if (encoder.turn() || encoder.click()) {
     lcd.clear();
+    lcd.backlight();
+    lcdBacklightTimePassed = millis();
 
     Serial.println("menuSettings.mainMenuIndex: " + String(menuSettings.mainMenuIndex));
     Serial.println("menuSettings.subMenuIndex: " + String(menuSettings.subMenuIndex));
     Serial.println("menuSettings.isSubMenuEdit: " + String(menuSettings.isSubMenuEdit));
     Serial.println("menuSettings.isSubMenu: " + String(menuSettings.isSubMenu));
 
+  }
+
+  if (isTimePassed(LCD_BACKLIGHT_TIMEOUT, &lcdBacklightTimePassed)) {
+    lcd.noBacklight();
   }
 }
 

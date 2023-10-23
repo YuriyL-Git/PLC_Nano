@@ -33,9 +33,9 @@ String getFormattedTime() {
   String stringMinute = String(now.minute);
   String stringSecond = String(now.second);
 
-  result = result + (now.hour > 10 ? stringHour: "0" + stringHour) + ":";
-  result = result + (now.minute > 10 ? stringMinute: "0"  + stringMinute) + ":";
-  result = result + (now.second > 10 ? stringSecond: "0"  + stringSecond);
+  result = result + (now.hour > 9 ? stringHour: "0" + stringHour) + ":";
+  result = result + (now.minute > 9 ? stringMinute: "0"  + stringMinute) + ":";
+  result = result + (now.second > 9 ? stringSecond: "0"  + stringSecond);
 
   return result;
 };

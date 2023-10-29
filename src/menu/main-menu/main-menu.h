@@ -1,6 +1,6 @@
 void mainScreenHandler();
 void timeSettingsHandler();
-void relay1SettingsHandler();
+void relay3Settings();
 void relay2SettingsHandler();
 
 MenuItem mainMenuItems[] = {
@@ -11,7 +11,7 @@ MenuItem mainMenuItems[] = {
                 timeSettingsHandler
         },
         {
-                relay1SettingsHandler
+                relay3Settings
         },
         {
                 relay2SettingsHandler

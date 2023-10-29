@@ -20,8 +20,8 @@ void mainScreenHandler() {
     lcd.setCursor(0, 1);
     for (int i = 0; i < settings.relaysQuantity; ++i) {
       RelaySettings relaySettings = settings.relaySettings[i];
-      String relayState = relaySettings.isEnabled? "ON": "OFF";
-      lcd.print(relaySettings.relayName + ":" + relayState);
+      String relayState = relaySettings.isEnabled? "ON": "OF";
+      lcd.print(relaySettings.relayName  +":"+ relayState);
       lcd.print("  ");
     }
   }
@@ -32,9 +32,9 @@ void timeSettingsHandler() {
   lcd.print("Time Settings");
 }
 
-void relay1SettingsHandler() {
+void relay3Settings() {
   lcd.setCursor(1, 0);
-  lcd.print("Relay 1 Settings");
+  lcd.print("Relay 3 Settings");
 };
 
 void relay2SettingsHandler(){

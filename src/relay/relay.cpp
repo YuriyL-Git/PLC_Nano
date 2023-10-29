@@ -2,12 +2,15 @@
 #include "definitions/definitions.h"
 #include "datetime/datetime.h"
 #include "settings/settings.h"
+#include "interval-timer/interval-timer.h"
 
 void setupRelays() {
   pinMode(RL1_PIN, OUTPUT);
   pinMode(RL2_PIN, OUTPUT);
+  pinMode(RL3_PIN, OUTPUT);
 }
 
+unsigned long intervalTimerStartTime = 0;
 
 void setRelay(uint8_t relayPin, bool isEnabled) {
   digitalWrite(relayPin, isEnabled? LOW : HIGH);
@@ -16,6 +19,8 @@ void setRelay(uint8_t relayPin, bool isEnabled) {
 void handleRelays () {
   Ds1302::DateTime dateTime = getCurrentDateTime();
   uint8_t hour = dateTime.hour;
+
+  intervalTimer(&intervalTimerStartTime, settings.rl2OnInterval, settings.rl2OffInterval, &settings.relaySettings[2].isEnabled);
 
   if (hour >= 19 && hour <= 21) {
     settings.relaySettings[0].isEnabled = true;
@@ -36,5 +41,6 @@ void handleRelays () {
     RelaySettings relaySettings = settings.relaySettings[i];
     setRelay(relaySettings.relayPin, relaySettings.isEnabled);
   }
+
 }
 

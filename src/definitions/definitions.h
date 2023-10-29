@@ -3,6 +3,7 @@
 
 #define RL1_PIN A1
 #define RL2_PIN A0
+#define RL3_PIN 7
 
 #define ENCODER_PIN_A 8
 #define ENCODER_PIN_B 9

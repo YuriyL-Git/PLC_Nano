@@ -2,6 +2,7 @@
 #include "encoder/encoder.h"
 #include "lcd/lcd.h"
 #include "time-settings/time-settings.h"
+#include "menu/relays-settings/relay3-settings/relays-settings.h"
 #include "main-menu/main-menu.h"
 #include "menu.h"
 #include "datetime/datetime.h"
@@ -89,6 +90,11 @@ MenuSubItem getMenuSubItems(int index) {
     return {
             timeSettingsSubItems,
             sizeof(timeSettingsSubItems) / sizeof(timeSettingsSubItems[0])
+    };
+  }else if (index == 2) {
+    return {
+            relaySettingsSubItems,
+            sizeof(relaySettingsSubItems) / sizeof(relaySettingsSubItems[0])
     };
   } else {
     return emptySubItem;

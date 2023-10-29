@@ -23,6 +23,8 @@ struct Settings {
     int version;
     uint8_t relaysQuantity;
     TimeSettings time;
+    unsigned long rl2OnInterval;
+    unsigned long rl2OffInterval;
     RelaySettings* relaySettings;
 };
 

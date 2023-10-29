@@ -13,4 +13,5 @@ void loop() {
   encoder.tick();
   renderMenu();
   handleRelays();
+
 }
